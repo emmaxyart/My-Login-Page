@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="BOOTSTRAP/bootstrap.min.css">
+    <script src="BOOTSTRAP/bootstrap.min.js"></script>
+    <link rel="icon" type="image/png" href="greenleaf.jpg">
+</head>
+<body style=" margin: 0px; padding: 0px; box-sizing: border-box; background-image: url(background1.avif); background-size: cover;
+background-repeat: no-repeat; height: 150vh;">
+
+    <div class="container" style=" backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.089); margin: 40px auto;  padding-right: 30px;
+    padding-left: 30px; border-radius: 10px; width: 450px; height: 550px; padding-top: 30px; background-color: rgba(255, 255, 255, 0.11);">
+
+        <h1 style="padding-bottom: 5px; color: rgb(255, 255, 255); font-weight: bold; font-size: xx-large;">
+            Register
+        </h1>
+        <p id="fill-in" style="color: rgb(255, 255, 255); margin-bottom: 30px;" >Fill this form to create an account!</p>
+
+        <form id="registerForm">
+            <div class="mb-3 text-white">
+              <label for="exampleInputEmail1" class="form-label ">Email address</label>
+              <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="mb-3  text-white">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+             <div class="mb-3  text-white">
+              <label for="exampleInputPassword2" class="form-label">Confirm Password</label>
+              <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+            </div>
+
+           <div class="submit-btn text-center">
+            <button type="submit" class="btn btn-primary" style="width: 380px; margin-top: 15px;">Register</button>
+           </div>
+        </form>
+        <p class="text-center text-white mt-3">
+            Already have an account? <a href="index.html" style="color: white; text-decoration: underline;">Login here</a>
+        </p>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    alert(data.message + ' You can now login.');
+                    window.location.href = 'index.html'; // Redirect to login page
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('An error occurred during registration.');
+            }
+        });
+    </script>
+</body>
+</html>
