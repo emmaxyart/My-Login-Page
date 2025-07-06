@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+    <link rel="stylesheet" href="BOOTSTRAP/bootstrap.min.css">
+    <script src="BOOTSTRAP/bootstrap.min.js"></script>
+    <link rel="icon" type="image/png" href="greenleaf.jpg">
+</head>
+<body style=" margin: 0px; padding: 0px; box-sizing: border-box; background-image: url(background1.avif); background-size: cover;
+background-repeat: no-repeat; height: 150vh;">
+
+    <div class="container" style=" backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.089); margin: 40px auto;  padding-right: 30px;
+    padding-left: 30px; border-radius: 10px; width: 450px; height: 400px; padding-top: 30px; background-color: rgba(255, 255, 255, 0.11);">
+
+        <h1 style="padding-bottom: 5px; color: rgb(255, 255, 255); font-weight: bold; font-size: xx-large;">
+            Forgot Password
+        </h1>
+        <p id="fill-in" style="color: rgb(255, 255, 255); margin-bottom: 30px;" >Enter your email to reset your password.</p>
+
+        <form id="forgotPasswordForm">
+            <div class="mb-3 text-white">
+              <label for="email" class="form-label ">Email address</label>
+              <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+
+           <div class="submit-btn text-center">
+            <button type="submit" class="btn btn-primary" style="width: 380px; margin-top: 35px;">Submit</button>
+           </div>
+        </form>
+        <p class="text-center text-white mt-3">
+            Remembered your password? <a href="index.html" style="color: white; text-decoration: underline;">Login here</a>
+        </p>
+         <p class="text-center text-white mt-1">
+            Don't have an account? <a href="register.html" style="color: white; text-decoration: underline;">Register here</a>
+        </p>
+    </div>
+
+    <script>
+        document.getElementById('forgotPasswordForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+
+            try {
+                const response = await fetch('/forgot-password', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email })
+                });
+                const data = await response.json();
+                alert(data.message); // "If your email is registered..."
+                // In a real app, you might want to show a more persistent message or UI update
+            } catch (error) {
+                console.error('Forgot password error:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>
